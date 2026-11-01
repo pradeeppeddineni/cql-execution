@@ -127,6 +127,16 @@ describe('Quantity', () => {
     result.equals(new Quantity(0.1, 'm')).should.be.true();
   });
 
+  it('should keep the unit of the dividend for modulo by a unitless value', () => {
+    const result = new Quantity(10.0, 'g').modulo(3);
+    result.unit.should.equal('g');
+    result.value.should.equalDecimal(1);
+    new Quantity(10.0, 'g')
+      .modulo(new Quantity(3, '1'))
+      .equals(new Quantity(1, 'g'))
+      .should.be.true();
+  });
+
   it('should return null for modulo by zero', () => {
     should(new Quantity(10.0, 'g').modulo(new Quantity(0.0, 'g'))).be.null();
     should(new Quantity(10.0, 'g').modulo(null)).be.null();

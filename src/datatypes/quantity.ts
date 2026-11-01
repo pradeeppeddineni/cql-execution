@@ -164,8 +164,10 @@ export class Quantity {
       other.unit
     );
 
-    // The remainder only makes sense when both sides end up in the same unit
-    if (unit1 !== unit2) {
+    // The remainder only makes sense when both sides end up in the same unit, except that a
+    // unitless divisor has no dimension to convert, so the remainder keeps the dividend's unit
+    // (10 'g' mod 3 is 1 'g', as 10 'g' / 3 is 3.33 'g')
+    if (unit1 !== unit2 && unit2 !== '1') {
       return null;
     }
 
